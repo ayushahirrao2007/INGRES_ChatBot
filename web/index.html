@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>INGRES ChatBot</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fb;
+  --panel:#ffffff;
+  --muted:#8b93a7;
+  --accent:#6a4ce8;
+  --card-shadow:0 6px 18px rgba(35,30,60,0.06);
+  --header-bg:#2c2c2c;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#222;}
+body{background:var(--bg);display:flex;justify-content:center;align-items:flex-start;padding:20px;}
+
+/* Outer App Container */
+.app{
+  width:1200px;
+  max-width:98%;
+  display:flex;
+  flex-direction:column;
+  min-height:92vh;
+  border-radius:30px;
+  overflow:hidden;
+  box-shadow:0 12px 40px rgba(0,0,0,0.1);
+  background:var(--panel);
+}
+
+/* Curved Top Header */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 28px;
+  background:linear-gradient(135deg,#222028,#2c2c2c);
+  margin:14px;
+  border-radius:18px;
+  box-shadow:0 8px 30px rgba(30,30,60,0.12);
+}
+.site-title{
+  font-weight:700;
+  color:#ffffff;
+  font-size:22px;
+  text-align:center;
+  font-family:'Segoe UI',sans-serif;
+}
+.logo-avatar{
+  width:48px;
+  height:48px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#8b6ff2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:700;
+  font-size:18px;
+}
+
+/* Inner Container */
+.container{
+  display:flex;
+  flex:1;
+  margin:10px 20px 20px 20px;
+  border-radius:24px;
+  overflow:hidden;
+  max-height:calc(100vh - 100px);
+  box-shadow:0 6px 18px rgba(35,30,60,0.05);
+}
+
+/* Sidebar */
+.sidebar{
+  width:300px;
+  background:var(--header-bg);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  border-radius:20px;
+}
+.sidebar h3{
+  margin:0 0 18px 0;
+  font-size:16px;
+  color:#fff;
+}
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.menu a.item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.04);
+  color:#fff;
+  text-decoration:none;
+  transition:all .18s;
+}
+.menu a.item .icon{
+  width:36px;
+  height:36px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,0.03);
+}
+.menu a.item:hover{
+  transform:translateX(6px);
+  background:linear-gradient(90deg,rgba(106,76,232,0.14),rgba(41,182,246,0.06));
+  box-shadow:0 8px 20px rgba(30,30,60,0.06);
+}
+
+/* Main Chat Panel */
+.main{
+  flex:1;
+  background:#f9f9fb;
+  border-radius:20px;
+  padding:20px 30px 80px 30px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* Chat Title */
+.chat-title{
+  font-size:28px;
+  font-weight:700;
+  color:black;
+  font-family:'Segoe UI',sans-serif;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+/* Logo Section */
+.chat-logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:20px;
+}
+.chat-logo img{
+  max-width:180px;
+  height:auto;
+  animation:fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(0.9);}
+  to{opacity:1;transform:scale(1);}
+}
+
+/* Quick Action Buttons */
+.quick-actions{
+  display:flex;
+  gap:14px;
+  margin-bottom:30px;
+  flex-wrap:wrap;
+}
+.quick-actions button{
+  padding:10px 18px;
+  border-radius:16px;
+  border:2px solid var(--accent);
+  background:transparent;
+  color:var(--accent);
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s all;
+}
+.quick-actions button:hover{
+  background:var(--accent);
+  color:#fff;
+  transform:scale(1.05);
+}
+
+/* Message Box */
+.message-bar{
+  position:absolute;
+  left:30px;
+  right:30px;
+  bottom:20px;
+}
+.composer{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:rgba(255,255,255,0.95);
+  padding:14px 18px;
+  border-radius:24px;
+  box-shadow:0 6px 16px rgba(30,30,60,0.08);
+  border:1px solid rgba(20,20,30,0.04);
+  transition:0.3s all;
+}
+.composer:hover{
+  background:rgba(255,255,255,1);
+  transform:scale(1.01);
+}
+.composer input{
+  flex:1;
+  border:0;
+  outline:none;
+  font-size:15px;
+  background:transparent;
+}
+.composer .send{
+  background:var(--accent);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:16px;
+  border:none;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s all;
+}
+.composer .send:hover{
+  transform:translateY(-2px) scale(1.08);
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Responsive */
+@media (max-width:1024px){
+  .app{width:95%;}
+  .container{flex-direction:column;max-height:none;}
+  .sidebar{width:100%;order:2;padding:20px;margin:5px;}
+  .main{order:1;padding:20px;margin:5px;}
+  .message-bar{left:20px;right:20px;}
+  .quick-actions{flex-wrap:wrap;}
+}
+@media (max-width:600px){
+  .composer{flex-direction:column;gap:8px;}
+  .composer .send{width:100%;}
+  .chat-title{font-size:22px;margin-bottom:20px;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Header -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo-avatar">IG</div>
+      <div>
+        <div class="site-title">INGRES ChatBot</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.75)">Employee Assistant — India</div>
+      </div>
+    </div>
+    <div>
+      <button class="icon-btn" style="background:none;border:none;font-size:24px;" onclick="location.href='Ask_about_features.html'">🌙</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h3>Menu</h3>
+      <div class="menu">
+        <a class="item" href="Chat_history.html"><span class="icon">💬</span><span>Chat History <small style="color:#cbd5e1;margin-left:6px">(04)</small></span></a>
+        <a class="item" href="Setting.html"><span class="icon">⚙️</span><span>Settings</span></a>
+        <a class="item" href="FAQ.html"><span class="icon">❓</span><span>FAQ</span></a>
+        <a class="item" href="Map.html"><span class="icon">🗺️</span><span>Map</span></a>
+      </div>
+    </aside>
+
+    <!-- Main Chat Panel -->
+    <main class="main">
+      <div class="chat-title">India’s 1st INGRES ChatBot</div>
+      <div class="welcome" style="width:90%;max-width:880px;">
+        <h4 style="margin:0">Welcome to INGRES</h4>
+        <p style="margin-top:8px;color:#556">Use the menu to explore history, settings, FAQs or open the interactive map. Try "Ask about Features".</p>
+      </div>
+
+      <!-- Logo -->
+      <div class="chat-logo">
+        <img src="codecatalystlogo.png" alt="ChatBot Logo">
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="quick-actions">
+        <button type="button" onclick="location.href='Ask_about_features.html'">Ask about Features</button>
+        <button type="button" onclick="location.href='View_tutorial.html'">View Tutorials</button>
+        <button type="button" onclick="location.href='Contact&support.html'">Contact Support</button>
+      </div>
+
+      <!-- Message Box -->
+      <div class="message-bar">
+        <div class="composer">
+          <input id="msg" placeholder="Type message" />
+          <button class="send" onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+function sendMsg(){
+  const v = document.getElementById('msg').value.trim();
+  if(!v) return;
+  alert('Message sent:\n\"' + v + '\"');
+  document.getElementById('msg').value = '';
+}
+document.querySelectorAll('.icon-btn').forEach(b => b.addEventListener('click', ()=> b.classList.add('active')));
+</script>
+</body>
+</html>
