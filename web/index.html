@@ -29,6 +29,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   overflow:hidden;
   box-shadow:0 12px 40px rgba(0,0,0,0.1);
   background:var(--panel);
+  animation: fadeInApp 1.2s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInApp {
+  from { opacity: 0; transform: translateY(40px) scale(0.98);}
+  to { opacity: 1; transform: translateY(0) scale(1);}
 }
 
 /* Curved Top Header */
@@ -41,6 +46,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   margin:14px;
   border-radius:18px;
   box-shadow:0 8px 30px rgba(30,30,60,0.12);
+  animation: slideDown 1s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-40px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 .site-title{
   font-weight:700;
@@ -60,6 +70,13 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   color:#fff;
   font-weight:700;
   font-size:18px;
+  box-shadow:0 2px 8px rgba(106,76,232,0.10);
+  animation: popIn 1.2s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes popIn {
+  0% { opacity:0; transform:scale(0.5) rotate(-20deg);}
+  70% { opacity:1; transform:scale(1.1) rotate(5deg);}
+  100% { opacity:1; transform:scale(1) rotate(0);}
 }
 
 /* Inner Container */
@@ -71,6 +88,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   overflow:hidden;
   max-height:calc(100vh - 100px);
   box-shadow:0 6px 18px rgba(35,30,60,0.05);
+  animation: fadeInContainer 1.3s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInContainer {
+  from { opacity: 0; transform: translateY(60px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 /* Sidebar */
@@ -82,6 +104,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   flex-direction:column;
   gap:14px;
   border-radius:20px;
+  animation: fadeInSidebar 1.4s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInSidebar {
+  from { opacity: 0; transform: translateX(-40px);}
+  to { opacity: 1; transform: translateX(0);}
 }
 .sidebar h3{
   margin:0 0 18px 0;
@@ -104,6 +131,8 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   color:#fff;
   text-decoration:none;
   transition:all .18s;
+  position:relative;
+  overflow:hidden;
 }
 .menu a.item .icon{
   width:36px;
@@ -113,11 +142,23 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   align-items:center;
   justify-content:center;
   background:rgba(255,255,255,0.03);
+  transition: background 0.3s;
 }
 .menu a.item:hover{
-  transform:translateX(6px);
+  transform:translateX(6px) scale(1.04);
   background:linear-gradient(90deg,rgba(106,76,232,0.14),rgba(41,182,246,0.06));
   box-shadow:0 8px 20px rgba(30,30,60,0.06);
+}
+.menu a.item:hover .icon{
+  background:var(--accent);
+  color:#fff;
+  animation: iconBounce 0.5s;
+}
+@keyframes iconBounce {
+  0% { transform: scale(1);}
+  40% { transform: scale(1.25);}
+  60% { transform: scale(0.95);}
+  100% { transform: scale(1);}
 }
 
 /* Main Chat Panel */
@@ -132,6 +173,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   justify-content:flex-start;
   align-items:center;
   overflow:hidden;
+  animation: fadeInMain 1.5s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInMain {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 /* Chat Title */
@@ -142,6 +188,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   font-family:'Segoe UI',sans-serif;
   text-align:center;
   margin-bottom:20px;
+  animation: fadeInTitle 1.7s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInTitle {
+  from { opacity: 0; transform: translateY(-20px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 /* Logo Section */
@@ -150,15 +201,20 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   justify-content:center;
   align-items:center;
   margin-bottom:20px;
+  animation: fadeInLogo 2s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInLogo {
+  from { opacity: 0; transform: scale(0.8);}
+  to { opacity: 1; transform: scale(1);}
 }
 .chat-logo img{
   max-width:180px;
   height:auto;
-  animation:fadeIn 1s ease-in-out;
+  animation:logoPulse 2.5s infinite alternate;
 }
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(0.9);}
-  to{opacity:1;transform:scale(1);}
+@keyframes logoPulse {
+  0% { filter: drop-shadow(0 0 0px #6a4ce8);}
+  100% { filter: drop-shadow(0 0 16px #6a4ce8);}
 }
 
 /* Quick Action Buttons */
@@ -167,6 +223,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   gap:14px;
   margin-bottom:30px;
   flex-wrap:wrap;
+  animation: fadeInQuick 2.2s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInQuick {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 .quick-actions button{
   padding:10px 18px;
@@ -177,11 +238,20 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   cursor:pointer;
   font-weight:600;
   transition:0.3s all;
+  position:relative;
+  overflow:hidden;
 }
 .quick-actions button:hover{
   background:var(--accent);
   color:#fff;
-  transform:scale(1.05);
+  transform:scale(1.08) rotate(-2deg);
+  box-shadow:0 4px 16px rgba(106,76,232,0.10);
+  animation: btnWiggle 0.4s;
+}
+@keyframes btnWiggle {
+  0% { transform: scale(1.08) rotate(-2deg);}
+  50% { transform: scale(1.13) rotate(2deg);}
+  100% { transform: scale(1.08) rotate(-2deg);}
 }
 
 /* Message Box */
@@ -201,6 +271,11 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   box-shadow:0 6px 16px rgba(30,30,60,0.08);
   border:1px solid rgba(20,20,30,0.04);
   transition:0.3s all;
+  animation: fadeInComposer 2.5s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInComposer {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 .composer:hover{
   background:rgba(255,255,255,1);
@@ -223,10 +298,21 @@ body{background:var(--bg);display:flex;justify-content:center;align-items:flex-s
   font-weight:600;
   cursor:pointer;
   transition:0.3s all;
+  animation: fadeInSend 2.7s cubic-bezier(.77,0,.18,1) both;
+}
+@keyframes fadeInSend {
+  from { opacity: 0; transform: scale(0.8);}
+  to { opacity: 1; transform: scale(1);}
 }
 .composer .send:hover{
   transform:translateY(-2px) scale(1.08);
   box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  animation: sendPulse 0.5s;
+}
+@keyframes sendPulse {
+  0% { background:var(--accent);}
+  50% { background:#5436c7;}
+  100% { background:var(--accent);}
 }
 
 /* Responsive */
