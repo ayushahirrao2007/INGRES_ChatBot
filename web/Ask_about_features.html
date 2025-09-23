@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask About Features | INGRES ChatBot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --bg:#f8f9fb;
+      --panel:#ffffff;
+      --muted:#8b93a7;
+      --accent:#6a4ce8;
+      --card-shadow:0 6px 18px rgba(35,30,60,0.06);
+      --header-bg:#2c2c2c;
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#222;}
+    body{background:var(--bg);display:flex;justify-content:center;align-items:flex-start;padding:20px;}
+    .app{
+      width:600px;
+      max-width:98%;
+      margin:auto;
+      min-height:80vh;
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,0.1);
+      background:var(--panel);
+      display:flex;
+      flex-direction:column;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:18px 28px;
+      background:linear-gradient(135deg,#222028,#2c2c2c);
+      border-radius:18px;
+      margin:14px;
+      box-shadow:0 8px 30px rgba(30,30,60,0.12);
+    }
+    .logo-avatar{
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#8b6ff2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:18px;
+    }
+    .site-title{
+      font-weight:700;
+      color:#ffffff;
+      font-size:22px;
+      font-family:'Segoe UI',sans-serif;
+    }
+    .feature-title{
+      font-size:28px;
+      font-weight:700;
+      color:black;
+      font-family:'Segoe UI',sans-serif;
+      text-align:center;
+      margin:30px 0 10px 0;
+    }
+    .feature-panel{
+      background:var(--panel);
+      border-radius:20px;
+      box-shadow:0 6px 18px rgba(35,30,60,0.06);
+      padding:32px 28px 24px 28px;
+      margin:0 24px 24px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:24px;
+    }
+    .feature-item{
+      background:#f8f9fb;
+      border-radius:14px;
+      box-shadow:0 2px 8px rgba(106,76,232,0.07);
+      padding:18px 20px;
+      transition:box-shadow 0.2s;
+      border-left:4px solid var(--accent);
+      position:relative;
+    }
+    .feature-item:hover{
+      box-shadow:0 6px 18px rgba(106,76,232,0.12);
+    }
+    .feature-name{
+      font-size:17px;
+      font-weight:600;
+      color:#222;
+      margin-bottom:8px;
+    }
+    .feature-desc{
+      font-size:15px;
+      color:#444;
+      margin-top:2px;
+      line-height:1.6;
+    }
+    .back-btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:8px 18px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
+      margin-left:30px;
+      margin-top:10px;
+      margin-bottom:0;
+      align-self:flex-start;
+    }
+    .back-btn:hover{
+      background:#5436c7;
+    }
+    @media (max-width:700px){
+      .app{width:98%;padding:0;}
+      .feature-panel{margin:0 4px 18px 4px;}
+    }
+    </style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Header -->
+  <div class="topbar">
+    <div class="logo-avatar">IG</div>
+    <div>
+      <div class="site-title">INGRES ChatBot</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75)">Ask About Features</div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
+
+  <div class="feature-title">Ask About Features</div>
+  <div class="feature-panel">
+    <div class="feature-item">
+      <div class="feature-name">24/7 Employee Assistance</div>
+      <div class="feature-desc">Get instant answers to HR, payroll, and leave queries any time of the day.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-name">Leave Management</div>
+      <div class="feature-desc">Check your leave balance, apply for leave, and track approvals directly through chat.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-name">Document Access</div>
+      <div class="feature-desc">Download salary slips, HR policies, and other important documents with a simple request.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-name">Personalized Notifications</div>
+      <div class="feature-desc">Receive reminders for upcoming holidays, policy updates, and important announcements.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-name">Multi-language Support</div>
+      <div class="feature-desc">Interact with the chatbot in English, Hindi, or Marathi for your convenience.</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-name">Secure & Private</div>
+      <div class="feature-desc">Your data is protected with enterprise-grade security and privacy controls.</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
