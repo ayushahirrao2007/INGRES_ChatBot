@@ -28,6 +28,11 @@
       background:var(--panel);
       display:flex;
       flex-direction:column;
+      animation: fadeInApp 1.1s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInApp {
+      from { opacity: 0; transform: translateY(40px) scale(0.98);}
+      to { opacity: 1; transform: translateY(0) scale(1);}
     }
     .topbar{
       display:flex;
@@ -38,6 +43,11 @@
       border-radius:18px;
       margin:14px;
       box-shadow:0 8px 30px rgba(30,30,60,0.12);
+      animation: slideDown 1s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-40px);}
+      to { opacity: 1; transform: translateY(0);}
     }
     .logo-avatar{
       width:48px;
@@ -50,6 +60,13 @@
       color:#fff;
       font-weight:700;
       font-size:18px;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
+      animation: popIn 1.2s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes popIn {
+      0% { opacity:0; transform:scale(0.5) rotate(-20deg);}
+      70% { opacity:1; transform:scale(1.1) rotate(5deg);}
+      100% { opacity:1; transform:scale(1) rotate(0);}
     }
     .site-title{
       font-weight:700;
@@ -64,6 +81,11 @@
       font-family:'Segoe UI',sans-serif;
       text-align:center;
       margin:30px 0 10px 0;
+      animation: fadeInTitle 1.3s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInTitle {
+      from { opacity: 0; transform: translateY(-20px);}
+      to { opacity: 1; transform: translateY(0);}
     }
     .settings-panel{
       background:var(--panel);
@@ -74,16 +96,32 @@
       display:flex;
       flex-direction:column;
       gap:28px;
+      animation: fadeInPanel 1.4s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInPanel {
+      from { opacity: 0; transform: translateY(60px);}
+      to { opacity: 1; transform: translateY(0);}
     }
     .setting-group{
       display:flex;
       flex-direction:column;
       gap:8px;
+      animation: fadeInGroup 1.5s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInGroup {
+      from { opacity:0; transform:translateX(-30px);}
+      to { opacity:1; transform:translateX(0);}
     }
     .setting-label{
       font-weight:600;
       color:#333;
       margin-bottom:4px;
+      letter-spacing:0.2px;
+      animation: fadeInLabel 1.7s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInLabel {
+      from { opacity:0;}
+      to { opacity:1;}
     }
     .setting-input, select{
       padding:10px 14px;
@@ -92,16 +130,28 @@
       font-size:15px;
       background:#f8f9fb;
       outline:none;
-      transition:0.2s border;
+      transition:0.2s border, box-shadow 0.2s;
+      box-shadow:0 2px 8px rgba(106,76,232,0.04);
+      animation: fadeInInput 1.8s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInInput {
+      from { opacity:0; transform:scale(0.95);}
+      to { opacity:1; transform:scale(1);}
     }
     .setting-input:focus, select:focus{
       border:1.5px solid var(--accent);
+      box-shadow:0 0 8px #6a4ce8;
     }
     .toggle-switch{
       display:inline-flex;
       align-items:center;
       gap:10px;
       cursor:pointer;
+      animation: fadeInToggle 2s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInToggle {
+      from { opacity:0; transform:scale(0.9);}
+      to { opacity:1; transform:scale(1);}
     }
     .toggle-switch input{
       display:none;
@@ -113,6 +163,7 @@
       border-radius:12px;
       position:relative;
       transition:background 0.2s;
+      box-shadow:0 2px 8px rgba(106,76,232,0.08);
     }
     .toggle-slider:before{
       content:'';
@@ -122,6 +173,7 @@
       background:#fff;
       border-radius:50%;
       transition:transform 0.2s;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
     }
     .toggle-switch input:checked + .toggle-slider{
       background:var(--accent);
@@ -142,10 +194,47 @@
       cursor:pointer;
       transition:0.2s all;
       box-shadow:0 4px 16px rgba(106,76,232,0.10);
+      animation: fadeInSave 2s cubic-bezier(.77,0,.18,1) both;
+      letter-spacing:0.5px;
+    }
+    @keyframes fadeInSave {
+      from { opacity:0; transform:translateY(20px);}
+      to { opacity:1; transform:translateY(0);}
     }
     .save-btn:hover{
       background:#5436c7;
-      transform:scale(1.03);
+      transform:scale(1.05) rotate(-1deg);
+      box-shadow:0 8px 24px rgba(106,76,232,0.18);
+      animation: btnWiggle 0.4s;
+    }
+    @keyframes btnWiggle {
+      0% { transform: scale(1.05) rotate(-1deg);}
+      50% { transform: scale(1.09) rotate(2deg);}
+      100% { transform: scale(1.05) rotate(-1deg);}
+    }
+    .back-btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:8px 18px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
+      margin-left:30px;
+      margin-top:10px;
+      margin-bottom:0;
+      align-self:flex-start;
+      transition:background 0.2s, transform 0.2s;
+      animation: fadeInBack 1.2s cubic-bezier(.77,0,.18,1) both;
+    }
+    @keyframes fadeInBack {
+      from { opacity:0; transform:translateX(-20px);}
+      to { opacity:1; transform:translateX(0);}
+    }
+    .back-btn:hover{
+      background:#5436c7;
+      transform:scale(1.05);
     }
     @media (max-width:700px){
       .app{width:98%;padding:0;}
@@ -165,11 +254,7 @@
   </div>
 
   <!-- Back Button -->
-  <div style="margin-left:30px;margin-top:10px;">
-    <button onclick="location.href='index.html'" style="background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(106,76,232,0.10);">
-      ← Back to Home
-    </button>
-  </div>
+  <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
 
   <div class="settings-title">Settings</div>
   <form class="settings-panel">
@@ -210,7 +295,13 @@
 </div>
 <script>
 function saveSettings(){
-  alert("Settings saved! (Demo only)");
+  const btn = document.querySelector('.save-btn');
+  btn.textContent = "✔ Saved!";
+  btn.style.background = "#43b581";
+  setTimeout(()=>{
+    btn.textContent = "Save Changes";
+    btn.style.background = "";
+  }, 1200);
 }
 </script>
 </body>
