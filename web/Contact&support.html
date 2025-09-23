@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support | INGRES ChatBot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root{
+      --bg:#f8f9fb;
+      --panel:#ffffff;
+      --muted:#8b93a7;
+      --accent:#6a4ce8;
+      --card-shadow:0 6px 18px rgba(35,30,60,0.06);
+      --header-bg:#2c2c2c;
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#222;}
+    body{background:var(--bg);display:flex;justify-content:center;align-items:flex-start;padding:20px;}
+    .app{
+      width:600px;
+      max-width:98%;
+      margin:auto;
+      min-height:80vh;
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,0.1);
+      background:var(--panel);
+      display:flex;
+      flex-direction:column;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:18px 28px;
+      background:linear-gradient(135deg,#222028,#2c2c2c);
+      border-radius:18px;
+      margin:14px;
+      box-shadow:0 8px 30px rgba(30,30,60,0.12);
+    }
+    .logo-avatar{
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#8b6ff2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:18px;
+    }
+    .site-title{
+      font-weight:700;
+      color:#ffffff;
+      font-size:22px;
+      font-family:'Segoe UI',sans-serif;
+    }
+    .support-title{
+      font-size:28px;
+      font-weight:700;
+      color:black;
+      font-family:'Segoe UI',sans-serif;
+      text-align:center;
+      margin:30px 0 10px 0;
+    }
+    .support-panel{
+      background:var(--panel);
+      border-radius:20px;
+      box-shadow:0 6px 18px rgba(35,30,60,0.06);
+      padding:32px 28px 24px 28px;
+      margin:0 24px 24px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:24px;
+    }
+    .support-section{
+      margin-bottom:18px;
+    }
+    .support-section h3{
+      margin:0 0 8px 0;
+      color:var(--accent);
+      font-size:18px;
+      font-weight:700;
+    }
+    .support-section ul{
+      margin:0;
+      padding-left:18px;
+    }
+    .support-section li{
+      margin-bottom:7px;
+      font-size:15px;
+    }
+    .support-section a{
+      color:var(--accent);
+      text-decoration:none;
+      font-weight:600;
+      transition:color 0.2s;
+    }
+    .support-section a:hover{
+      color:#5436c7;
+      text-decoration:underline;
+    }
+    .back-btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:8px 18px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
+      margin-left:30px;
+      margin-top:10px;
+      margin-bottom:0;
+      align-self:flex-start;
+    }
+    .back-btn:hover{
+      background:#5436c7;
+    }
+    @media (max-width:700px){
+      .app{width:98%;padding:0;}
+      .support-panel{margin:0 4px 18px 4px;}
+    }
+    </style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Header -->
+  <div class="topbar">
+    <div class="logo-avatar">IG</div>
+    <div>
+      <div class="site-title">INGRES ChatBot</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75)">Contact & Support</div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
+
+  <div class="support-title">Contact & Support</div>
+  <div class="support-panel">
+    <div class="support-section">
+      <h3>Contact INGRES Team</h3>
+      <ul>
+        <li>Email: <a href="mailto:ingres@iith.ac.in">ingres@iith.ac.in</a></li>
+        <li>Website: <a href="https://ingres.iith.ac.in/" target="_blank">INGRES @ IIT Hyderabad</a></li>
+      </ul>
+    </div>
+    <div class="support-section">
+      <h3>Government Water Resources Links</h3>
+      <ul>
+        <li><a href="https://indiawris.gov.in/" target="_blank">India-WRIS (Water Resources Information System)</a></li>
+        <li><a href="https://jalshakti-dowr.gov.in/" target="_blank">Ministry of Jal Shakti</a></li>
+        <li><a href="https://cgwb.gov.in/" target="_blank">Central Ground Water Board (CGWB)</a></li>
+        <li><a href="https://nmcg.nic.in/" target="_blank">National Mission for Clean Ganga (NMCG)</a></li>
+        <li><a href="https://pmksy.gov.in/" target="_blank">Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)</a></li>
+      </ul>
+    </div>
+    <div class="support-section">
+      <h3>Need More Help?</h3>
+      <ul>
+        <li>Check our <a href="FAQ.html">FAQ page</a> for common questions.</li>
+        <li>For technical support, email us or visit our website above.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>
