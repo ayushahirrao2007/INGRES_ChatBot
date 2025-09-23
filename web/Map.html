@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 3D Water Resource Map of India</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src='https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css' rel='stylesheet' />
+    <style>
+    :root{
+      --bg:#f8f9fb;
+      --panel:#ffffff;
+      --muted:#8b93a7;
+      --accent:#6a4ce8;
+      --card-shadow:0 6px 18px rgba(35,30,60,0.06);
+      --header-bg:#2c2c2c;
+    }
+    *{box-sizing:border-box;}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;color:#222;}
+    body{background:var(--bg);}
+    .app{
+      width:98vw;
+      height:96vh;
+      margin:1vw auto;
+      border-radius:30px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,0.1);
+      background:var(--panel);
+      display:flex;
+      flex-direction:column;
+      position:relative;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:18px 28px;
+      background:linear-gradient(135deg,#222028,#2c2c2c);
+      border-radius:18px;
+      margin:14px 14px 0 14px;
+      box-shadow:0 8px 30px rgba(30,30,60,0.12);
+      z-index:10;
+      position:relative;
+    }
+    .logo-avatar{
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),#8b6ff2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+      font-size:18px;
+    }
+    .site-title{
+      font-weight:700;
+      color:#ffffff;
+      font-size:22px;
+      font-family:'Segoe UI',sans-serif;
+    }
+    .map-title{
+      font-size:28px;
+      font-weight:700;
+      color:black;
+      font-family:'Segoe UI',sans-serif;
+      text-align:center;
+      margin:24px 0 10px 0;
+    }
+    #map {
+      flex:1;
+      min-height:400px;
+      border-radius:24px;
+      margin:18px 24px 24px 24px;
+      box-shadow:0 6px 18px rgba(35,30,60,0.06);
+      position:relative;
+      z-index:1;
+    }
+    .legend-panel, .info-panel {
+      background:var(--panel);
+      border-radius:20px;
+      box-shadow:0 6px 18px rgba(35,30,60,0.06);
+      padding:24px 20px 18px 20px;
+      margin:0 24px 18px 24px;
+      z-index:5;
+      position:absolute;
+      top:110px;
+      left:40px;
+      min-width:220px;
+      max-width:320px;
+    }
+    .info-panel {
+      right:40px;
+      left:auto;
+      top:110px;
+      min-width:220px;
+      max-width:340px;
+    }
+    .legend-title{
+      font-size:17px;
+      font-weight:600;
+      color:#222;
+      margin-bottom:10px;
+    }
+    .legend-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:6px;
+      font-size:15px;
+    }
+    .legend-dot{
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      border:1.5px solid #e0e0e0;
+      display:inline-block;
+    }
+    .dot-safe{background:#91cf60;}
+    .dot-semicritical{background:#fee08b;}
+    .dot-critical{background:#fc8d59;}
+    .dot-over{background:#d73027;}
+    .back-btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:8px 18px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 2px 8px rgba(106,76,232,0.10);
+      margin-left:30px;
+      margin-top:10px;
+      margin-bottom:0;
+      align-self:flex-start;
+      z-index:20;
+      position:relative;
+    }
+    .back-btn:hover{
+      background:#5436c7;
+    }
+    /* Loader */
+    #loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 2s linear infinite;
+      z-index: 1000;
+    }
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @media (max-width:900px){
+      .app{width:100vw;height:100vh;}
+      #map{margin:8px;}
+      .legend-panel, .info-panel{margin:0 8px 8px 8px;top:80px;}
+    }
+    @media (max-width:600px){
+      .legend-panel, .info-panel{position:static;max-width:100%;margin:8px 0;}
+      .topbar{margin:8px;}
+      #map{margin:8px;}
+    }
+    </style>
+</head>
+<body>
+<div class="app">
+  <!-- Top Header -->
+  <div class="topbar">
+    <div class="logo-avatar">IG</div>
+    <div>
+      <div class="site-title">INGRES ChatBot</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.75)">Water Resource Map</div>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
+
+  <div class="map-title">India's Groundwater Status (2024)</div>
+
+  <!-- Legend Panel -->
+  <div class="legend-panel">
+    <div class="legend-title">Legend (% Extraction)</div>
+    <div class="legend-row"><span class="legend-dot dot-safe"></span>Safe (&lt;70%)</div>
+    <div class="legend-row"><span class="legend-dot dot-semicritical"></span>Semi-Critical (70-90%)</div>
+    <div class="legend-row"><span class="legend-dot dot-critical"></span>Critical (90-100%)</div>
+    <div class="legend-row"><span class="legend-dot dot-over"></span>Over-Exploited (&gt;100%)</div>
+  </div>
+
+  <!-- Info Panel for Selected State -->
+  <div class="info-panel" id="info-panel">
+    <div id="info-title" style="font-size:18px;font-weight:700;color:#222;border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:8px;">Select a State</div>
+    <div id="info-content" style="font-size:15px;color:#555;">
+      <p>Click on a state on the map to see its detailed groundwater assessment data here.</p>
+    </div>
+  </div>
+
+  <div id="loader"></div>
+  <div id="map"></div>
+</div>
+<script>
+    // --- IMPORTANT: ADD YOUR MAPTILER API KEY HERE ---
+    const maptilerApiKey = 'RhLuvXAqVQNBycZk61r5';
+
+    if (!maptilerApiKey || maptilerApiKey.includes('YOUR_MAPTILER_API_KEY_HERE')) {
+        document.getElementById('loader').style.display = 'none';
+        alert('ERROR: Please add your free Maptiler API key in the script to run this map!');
+        throw new Error("Maptiler API key is missing.");
+    }
+
+    const groundwaterData = {
+        "Andhra Pradesh": { "category": "Safe", "stage_of_extraction_percent": 29.83, "recharge": 27.80, "extraction": 7.88 },
+        "Arunachal Pradesh": { "category": "Safe", "stage_of_extraction_percent": 0.39, "recharge": 3.88, "extraction": 0.01 },
+        "Assam": { "category": "Safe", "stage_of_extraction_percent": 12.61, "recharge": 27.21, "extraction": 2.64 },
+        "Bihar": { "category": "Safe", "stage_of_extraction_percent": 45.54, "recharge": 34.15, "extraction": 14.10 },
+        "Chhattisgarh": { "category": "Safe", "stage_of_extraction_percent": 47.32, "recharge": 14.18, "extraction": 6.12 },
+        "Goa": { "category": "Safe", "stage_of_extraction_percent": 22.91, "recharge": 0.38, "extraction": 0.07 },
+        "Gujarat": { "category": "Safe", "stage_of_extraction_percent": 54.21, "recharge": 27.58, "extraction": 13.86 },
+        "Haryana": { "category": "Over-Exploited", "stage_of_extraction_percent": 135.96, "recharge": 10.32, "extraction": 12.72 },
+        "Himachal Pradesh": { "category": "Safe", "stage_of_extraction_percent": 35.48, "recharge": 1.11, "extraction": 0.36 },
+        "Jharkhand": { "category": "Safe", "stage_of_extraction_percent": 31.43, "recharge": 6.28, "extraction": 1.81 },
+        "Karnataka": { "category": "Safe", "stage_of_extraction_percent": 68.44, "recharge": 18.74, "extraction": 11.55 },
+        "Kerala": { "category": "Safe", "stage_of_extraction_percent": 53.78, "recharge": 5.67, "extraction": 2.76 },
+        "Madhya Pradesh": { "category": "Safe", "stage_of_extraction_percent": 58.40, "recharge": 35.90, "extraction": 19.85 },
+        "Maharashtra": { "category": "Safe", "stage_of_extraction_percent": 52.99, "recharge": 33.03, "extraction": 16.50 },
+        "Manipur": { "category": "Safe", "stage_of_extraction_percent": 8.00, "recharge": 0.52, "extraction": 0.04 },
+        "Meghalaya": { "category": "Safe", "stage_of_extraction_percent": 4.60, "recharge": 1.86, "extraction": 0.07 },
+        "Mizoram": { "category": "Safe", "stage_of_extraction_percent": 3.95, "recharge": 0.21, "extraction": 0.01 },
+        "Nagaland": { "category": "Safe", "stage_of_extraction_percent": 4.72, "recharge": 0.62, "extraction": 0.03 },
+        "Odisha": { "category": "Safe", "stage_of_extraction_percent": 48.23, "recharge": 17.46, "extraction": 7.74 },
+        "Punjab": { "category": "Over-Exploited", "stage_of_extraction_percent": 156.87, "recharge": 19.19, "extraction": 27.66 },
+        "Rajasthan": { "category": "Over-Exploited", "stage_of_extraction_percent": 149.86, "recharge": 12.58, "extraction": 17.05 },
+        "Sikkim": { "category": "Safe", "stage_of_extraction_percent": 5.85, "recharge": 0.24, "extraction": 0.01 },
+        "Tamil Nadu": { "category": "Semi-Critical", "stage_of_extraction_percent": 74.26, "recharge": 21.51, "extraction": 14.45 },
+        "Telangana": { "category": "Safe", "stage_of_extraction_percent": 45.91, "recharge": 20.40, "extraction": 8.47 },
+        "Tripura": { "category": "Safe", "stage_of_extraction_percent": 9.48, "recharge": 1.45, "extraction": 0.11 },
+        "Uttar Pradesh": { "category": "Semi-Critical", "stage_of_extraction_percent": 70.45, "recharge": 72.84, "extraction": 46.76 },
+        "Uttarakhand": { "category": "Safe", "stage_of_extraction_percent": 53.54, "recharge": 2.14, "extraction": 1.05 },
+        "West Bengal": { "category": "Safe", "stage_of_extraction_percent": 45.63, "recharge": 25.89, "extraction": 10.75 },
+        "Andaman and Nicobar Islands": { "category": "Safe", "stage_of_extraction_percent": 2.08, "recharge": 0.38, "extraction": 0.01 },
+        "Chandigarh": { "category": "Safe", "stage_of_extraction_percent": 66.13, "recharge": 0.06, "extraction": 0.03 },
+        "Dadra and Nagar Haveli and Daman and Diu": { "category": "Over-Exploited", "stage_of_extraction_percent": 142.17, "recharge": 0.12, "extraction": 0.16 },
+        "Delhi": { "category": "Over-Exploited", "stage_of_extraction_percent": 100.77, "recharge": 0.38, "extraction": 0.34 },
+        "Jammu and Kashmir": { "category": "Safe", "stage_of_extraction_percent": 22.28, "recharge": 2.55, "extraction": 0.51 },
+        "Ladakh": { "category": "Safe", "stage_of_extraction_percent": 30.93, "recharge": 0.07, "extraction": 0.02 },
+        "Lakshadweep": { "category": "Safe", "stage_of_extraction_percent": 61.32, "recharge": 0.01, "extraction": 0.003 },
+        "Puducherry": { "category": "Semi-Critical", "stage_of_extraction_percent": 75.91, "recharge": 0.19, "extraction": 0.13 }
+    };
+
+    const geojsonDataUrl = 'https://raw.githubusercontent.com/geohacker/india/master/state/india_state.geojson';
+
+    // --- Initialize the Map ---
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: `https://api.maptiler.com/maps/streets/style.json?key=${maptilerApiKey}`,
+        center: [82.8, 23.5],
+        zoom: 4.2,
+        pitch: 0, // Set pitch to 0 for a straight (top-down) view
+        bearing: 0, // Set bearing to 0 for north-up orientation
+        antialias: true
+    });
+
+    map.addControl(new maplibregl.NavigationControl());
+
+    map.on('load', async () => {
+        try {
+            const response = await fetch(geojsonDataUrl);
+            if (!response.ok) throw new Error(`GeoJSON fetch failed: ${response.statusText}`);
+            const geojsonData = await response.json();
+
+            geojsonData.features.forEach(feature => {
+                const stateName = feature.properties.NAME_1;
+                const data = groundwaterData[stateName];
+                if (data) {
+                    feature.properties.category = data.category;
+                    feature.properties.stage_of_extraction_percent = data.stage_of_extraction_percent;
+                    feature.properties.recharge = data.recharge;
+                    feature.properties.extraction = data.extraction;
+                } else {
+                    feature.properties.category = 'N/A';
+                    feature.properties.stage_of_extraction_percent = 0;
+                    feature.properties.recharge = 'N/A';
+                    feature.properties.extraction = 'N/A';
+                }
+            });
+
+            map.addSource('states', {
+                'type': 'geojson',
+                'data': geojsonData
+            });
+
+            map.addLayer({
+                'id': 'state-extrusion',
+                'type': 'fill-extrusion',
+                'source': 'states',
+                'paint': {
+                    'fill-extrusion-color': [
+                        'case',
+                        ['==', ['get', 'category'], 'Over-Exploited'], '#d73027',
+                        ['==', ['get', 'category'], 'Critical'], '#fc8d59',
+                        ['==', ['get', 'category'], 'Semi-Critical'], '#fee08b',
+                        ['==', ['get', 'category'], 'Safe'], '#91cf60',
+                        '#ccc'
+                    ],
+                    'fill-extrusion-height': [
+                        'interpolate', ['linear'],
+                        ['get', 'stage_of_extraction_percent'],
+                        0, 0,
+                        160, 200000
+                    ],
+                    'fill-extrusion-base': 0,
+                    'fill-extrusion-opacity': 0.85
+                }
+            });
+
+            map.on('click', 'state-extrusion', (e) => {
+                const props = e.features[0].properties;
+                const infoTitle = document.getElementById('info-title');
+                const infoContent = document.getElementById('info-content');
+                if (infoTitle && infoContent) {
+                     infoTitle.textContent = props.NAME_1;
+                     infoContent.innerHTML = `
+                        <div style="display:flex;flex-direction:column;gap:6px;">
+                            <p><strong>Status:</strong> <span style="font-weight:700;color:${getColor(props.category)}">${props.category}</span></p>
+                            <p><strong>Stage of Extraction:</strong> ${props.stage_of_extraction_percent}%</p>
+                            <p><strong>Annual Recharge:</strong> ${props.recharge} BCM</p>
+                            <p><strong>Annual Extraction:</strong> ${props.extraction} BCM</p>
+                            <p style="font-size:12px;color:#888;margin-top:8px;">Data from CGWB National Compilation, 2024.</p>
+                        </div>
+                    `;
+                }
+            });
+
+            map.on('mouseenter', 'state-extrusion', () => { map.getCanvas().style.cursor = 'pointer'; });
+            map.on('mouseleave', 'state-extrusion', () => { map.getCanvas().style.cursor = ''; });
+
+            document.getElementById('loader').style.display = 'none';
+
+        } catch (error) {
+            console.error("Failed to load map data:", error);
+            document.getElementById('loader').style.display = 'none';
+            alert(`Failed to load map data. Error: ${error.message}. Please check your internet connection.`);
+        }
+    });
+
+    function getColor(category) {
+        switch (category) {
+            case 'Over-Exploited': return '#d73027';
+            case 'Critical': return '#fc8d59';
+            case 'Semi-Critical': return '#fee08b';
+            case 'Safe': return '#91cf60';
+            default: return '#ccc';
+        }
+    }
+</script>
+</body>
+</html>
