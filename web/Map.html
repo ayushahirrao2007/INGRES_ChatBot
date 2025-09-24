@@ -35,7 +35,6 @@
         align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:18px;
     }
     .site-title{ font-weight:700; color:#ffffff; font-size:22px; font-family:'Segoe UI',sans-serif; }
-    .map-title{ font-size:28px; font-weight:700; text-align:center; margin:24px 0 10px 0; }
     #map {
         flex:1; min-height:400px; border-radius:24px; margin:18px 24px 24px 24px;
         box-shadow:0 6px 18px rgba(35,30,60,0.06); position:relative; z-index:1;
@@ -127,11 +126,18 @@
     .legend-dot{ width:16px; height:16px; border-radius:50%; border:1.5px solid rgba(0,0,0,0.05); }
     .dot-safe{background:#91cf60;} .dot-semicritical{background:#fee08b;} .dot-critical{background:#fc8d59;} .dot-over{background:#d73027;}
     
+    /* Updated styles for the back button on the header */
     .back-btn{
-        background:var(--accent); color:#fff; border:none; padding:8px 18px; border-radius:12px; font-weight:600; cursor:pointer;
-        box-shadow:0 2px 8px rgba(106,76,232,0.10); margin-left:30px; margin-top:10px; margin-bottom:0; align-self:flex-start;
+        background:none; color:#fff; border:none; padding:8px 18px; border-radius:12px; font-weight:600; cursor:pointer;
+        box-shadow:none; margin-left:auto; margin-top:0; margin-bottom:0; align-self:center;
         z-index:20; position:relative; transition:background 0.2s, transform 0.2s;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Optional: Adds a subtle shadow for better readability on dark background */
     }
+    .back-btn:hover {
+        background: rgba(255,255,255,0.1);
+        transform: scale(1.05);
+    }
+
     #loader {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 8px solid #f3f3f3;
         border-top: 8px solid #3498db; border-radius: 50%; width: 60px; height: 60px;
@@ -145,13 +151,10 @@
     <div class="topbar">
         <div class="logo-avatar">IG</div>
         <div>
-            <div class="site-title">INGRES ChatBot</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.75)">Water Resource Map</div>
+            <div class="site-title">India's Groundwater Status</div>
         </div>
+        <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
     </div>
-
-    <button class="back-btn" onclick="location.href='index.html'">← Back to Home</button>
-    <div class="map-title">India's Groundwater Status (2024)</div>
 
     <div class="legend-panel" id="legend-panel">
         <div class="legend-title">Extraction:</div>
